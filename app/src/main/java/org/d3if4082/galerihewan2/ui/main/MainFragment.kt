@@ -12,33 +12,38 @@ import org.d3if4082.galerihewan2.R
 import org.d3if4082.galerihewan2.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
+    private val data = mutableListOf<Hewan>()
+    fun updateData(newData: List<Hewan>) {
+        data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+    private fun notifyDataSetChanged() {
+        TODO("Not yet implemented")
+    }
+
     private lateinit var binding: FragmentMainBinding
+    private lateinit var myAdapter: MainAdapter
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentMainBinding.inflate(layoutInflater, container, false)
+        myAdapter = MainAdapter()
         with(binding.recyclerView) {
             addItemDecoration(
                 DividerItemDecoration(context,
                 RecyclerView.VERTICAL)
             )
-            adapter = MainAdapter(getData())
+            adapter = myAdapter
             setHasFixedSize(true)
         }
         return binding.root
     }
 
-    private fun getData(): List<Hewan> {
-        return listOf(
-            Hewan("Angsa", "Cygnus olor", R.drawable.angsa),
-            Hewan("Ayam", "Gallus gallus", R.drawable.ayam),
-            Hewan("Bebek", "Cairina moschata", R.drawable.bebek),
-            Hewan("Domba", "Ovis ammon", R.drawable.domba),
-            Hewan("Kalkun", "Meleagris gallopavo", R.drawable.kalkun),
-            Hewan("Kambing", "Capricornis sumatrensis", R.drawable.kambing),
-            Hewan("Kelinci", "Oryctolagus cuniculus", R.drawable.kelinci),
-            Hewan("Kerbau", "Bubalus bubalis", R.drawable.kerbau),
-            Hewan("Kuda", "Equus caballus", R.drawable.kuda),
-            Hewan("Sapi", "Bos taurus", R.drawable.sapi)
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getData().observe(viewLifecycleOwner, {
+            myAdapter.updateData(it)
+        })
     }
 }
