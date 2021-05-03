@@ -28,6 +28,8 @@ interface HewanApiService {
             retrofit.create(HewanApiService::class.java)
         }
 
+        enum class ApiStatus { LOADING, SUCCESS, FAILED }
+
         fun getHewanUrl(nama: String): String {
             return BASE_URL + "hewan/$nama.jpg"
         }

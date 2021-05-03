@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Galeri Hewan 2</string>
+
+    <string name="koneksi_error">Koneksi error</string>
+
 </resources>
